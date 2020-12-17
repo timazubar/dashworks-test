@@ -16,7 +16,7 @@ export class ThumbnailRendererComponent implements ICellRendererAngularComp {
   constructor() { }
 
   agInit(params: ICellRendererParams): void {
-    this.thumbnails = params.data.thumbnails;
+    this.thumbnails = params.data.snippet.thumbnails;
   }
 
   refresh(params: any): boolean {

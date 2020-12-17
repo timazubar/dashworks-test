@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {map} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 
-import {ApiData, Snippet} from '../../interfaces';
+import {ApiData, Item} from '../../interfaces';
 import {GridDataService} from '../../services/grid-data.service';
 import {ThumbnailRendererComponent} from '../cell-renderers/thumbnail-renderer/thumbnail-renderer.component';
 import {TitleRendererComponent} from '../cell-renderers/title-renderer/title-renderer.component';
@@ -31,18 +31,17 @@ export class GridComponent implements OnInit {
     resizable: true,
   };
 
-  rowData$!: Observable<Snippet[]>;
+  rowData$!: Observable<Item[]>;
 
   constructor(private gridDataService: GridDataService) { }
 
   ngOnInit(): void {
     this.rowData$ = this.gridDataService.getApiData<ApiData>()
       .pipe(
-        map((allData: ApiData): any => {
-          const snippets = allData.items.map((item) => item.snippet);
-          console.log('snippets', snippets.slice(0, 10));
-          return snippets.slice(0, 10);
-        }),
+        map((allData: ApiData): Item[] => {
+          console.log('allData', allData.items);
+          return allData.items;
+        })
       );
   }
 

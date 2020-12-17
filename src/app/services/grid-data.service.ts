@@ -12,8 +12,8 @@ export class GridDataService {
 
   getApiData<T>(): Observable<T | any> {
     const apiUrl = 'https://www.googleapis.com/youtube/v3';
-    const apiKey = 'AIzaSyCeB3uAKvRezxvs59vqTRnz_0EBt0Xd7ag';
+    const apiKey = 'AIzaSyCHUnKnfEeAa79N3Ao4GE2EGAq0x446-Do';
 
-    return this.http.get(`${apiUrl}/search?key=${apiKey}&maxResults=50&type=video&part=snippet&q=john`);
+    return this.http.get(`${apiUrl}/search?key=${apiKey}&maxResults=5&type=video&part=snippet&q=john`);
   }
 }

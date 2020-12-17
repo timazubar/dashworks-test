@@ -11,6 +11,8 @@ import { ThumbnailRendererComponent } from './components/cell-renderers/thumbnai
 import { DateRendererComponent } from './components/cell-renderers/date-renderer/date-renderer.component';
 import { TitleRendererComponent } from './components/cell-renderers/title-renderer/title-renderer.component';
 import { TextRendererComponent } from './components/cell-renderers/text-renderer/text-renderer.component';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import {MatMenuModule} from '@angular/material/menu';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,9 @@ import { TextRendererComponent } from './components/cell-renderers/text-renderer
     AgGridModule.withComponents([]),
     BrowserModule,
     HttpClientModule,
-    ReactiveComponentModule
+    ReactiveComponentModule,
+    NoopAnimationsModule,
+    MatMenuModule
   ],
   providers: [GridDataService],
   bootstrap: [AppComponent]

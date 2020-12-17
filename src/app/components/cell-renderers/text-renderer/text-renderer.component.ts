@@ -16,7 +16,7 @@ export class TextRendererComponent implements ICellRendererAngularComp {
   constructor() { }
 
   agInit(params: ICellRendererParams): void {
-    this.snippet = params.data;
+    this.snippet = params.data.snippet;
   }
 
   refresh(params: ICellRendererParams): boolean {

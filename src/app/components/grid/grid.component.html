@@ -5,5 +5,7 @@
     [rowData]="rowData"
     [columnDefs]="columnDefs"
     [defaultColDef]="defaultColDef"
+    [getContextMenuItems]="getContextMenuItems"
+    (gridReady)="onGridReady($event)"
   ></ag-grid-angular>
 </div>

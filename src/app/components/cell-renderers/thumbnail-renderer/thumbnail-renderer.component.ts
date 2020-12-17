@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {ICellRendererAngularComp} from 'ag-grid-angular';
 import {ICellRendererParams} from 'ag-grid-community';
 
-import {Thumbnails} from '../../../interfaces';
+import {Default} from '../../../interfaces';
 
 @Component({
   selector: 'app-thumbnail-renderer',
@@ -11,12 +11,12 @@ import {Thumbnails} from '../../../interfaces';
 })
 export class ThumbnailRendererComponent implements ICellRendererAngularComp {
 
-  public thumbnails!: Thumbnails;
+  public thumbnailParams!: Default;
 
   constructor() { }
 
   agInit(params: ICellRendererParams): void {
-    this.thumbnails = params.data.snippet.thumbnails;
+    this.thumbnailParams = params.value;
   }
 
   refresh(params: any): boolean {

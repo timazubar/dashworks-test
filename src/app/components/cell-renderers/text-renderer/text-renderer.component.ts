@@ -2,8 +2,6 @@ import {Component} from '@angular/core';
 import {ICellRendererAngularComp} from 'ag-grid-angular';
 import {ICellRendererParams} from 'ag-grid-community';
 
-import {Snippet} from '../../../interfaces';
-
 @Component({
   selector: 'app-text-renderer',
   templateUrl: './text-renderer.component.html',
@@ -11,12 +9,12 @@ import {Snippet} from '../../../interfaces';
 })
 export class TextRendererComponent implements ICellRendererAngularComp {
 
-  public snippet!: Snippet;
+  public description!: string;
 
   constructor() { }
 
   agInit(params: ICellRendererParams): void {
-    this.snippet = params.data.snippet;
+    this.description = params.value;
   }
 
   refresh(params: ICellRendererParams): boolean {

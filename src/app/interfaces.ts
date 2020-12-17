@@ -7,6 +7,13 @@ export interface ApiData {
   items: Item[];
 }
 
+export interface RowItem {
+  thumbnail: Default;
+  publishedOn: Date;
+  videoTitle: {title: string, videoId: string};
+  description: string;
+}
+
 export interface Item {
   kind: ItemKind;
   etag: string;

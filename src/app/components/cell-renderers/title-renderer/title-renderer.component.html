@@ -1,14 +1,3 @@
-<div class="cell-content-wrapper" style="position:relative" (contextmenu)="onContextMenuClick($event)">
-  <a [href]="linkUrl">{{snippet.title}}</a>
-  <mat-menu #contextMenu="matMenu">
-    <ng-template matMenuContent>
-      <button mat-menu-item (click)="openInNewTab()">Open in the new tab</button>
-    </ng-template>
-  </mat-menu>
-  <div
-    style="visibility: hidden; position: absolute"
-    [style.left]="contextMenuPosition.x"
-    [style.top]="contextMenuPosition.y"
-    [matMenuTriggerFor]="contextMenu"
-  ></div>
+<div class="cell-content-wrapper">
+  <a [href]="linkUrl">{{title}}</a>
 </div>

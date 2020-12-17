@@ -1,2 +1,10 @@
 @import "../node_modules/ag-grid-community/dist/styles/ag-grid.css";
 @import "../node_modules/ag-grid-community/dist/styles/ag-theme-alpine.css";
+
+// cell renderers components common styles
+@import "scss/cell-renderers";
+
+body {
+  margin: 0;
+  padding: 0;
+}

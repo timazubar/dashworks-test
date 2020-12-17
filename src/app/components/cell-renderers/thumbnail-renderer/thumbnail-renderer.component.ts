@@ -11,13 +11,11 @@ import {Thumbnails} from '../../../interfaces';
 })
 export class ThumbnailRendererComponent implements ICellRendererAngularComp {
 
-  public params!: ICellRendererParams;
   public thumbnails!: Thumbnails;
 
   constructor() { }
 
   agInit(params: ICellRendererParams): void {
-    this.params = params;
     this.thumbnails = params.data.thumbnails;
   }
 

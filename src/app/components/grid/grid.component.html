@@ -1,14 +1,9 @@
-<div *ngrxLet="rowData$; let rowDataAsync">
-  <!--<ul>
-    <li><img [src]="rowDataAsync[0].thumbnails.default.url" alt=""></li>
-    <li>{{rowDataAsync[0].publishedAt | json}}</li>
-    <li>{{rowDataAsync[0].title | json}}</li>
-    <li>{{rowDataAsync[0].description | json}}</li>
-  </ul>-->
+<div *ngrxLet="rowData$; let rowData">
   <ag-grid-angular
-    style="width: 100%; height: 500px;"
+    style="width: 100%; height: 100vh"
     class="ag-theme-alpine"
-    [rowData]="rowDataAsync"
+    [rowData]="rowData"
     [columnDefs]="columnDefs"
+    [defaultColDef]="defaultColDef"
   ></ag-grid-angular>
 </div>

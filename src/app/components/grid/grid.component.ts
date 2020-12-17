@@ -1,8 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {map} from 'rxjs/operators';
-import {ApiData, Snippet} from '../interfaces';
-import {GridDataService} from './grid-data.service';
 import {Observable} from 'rxjs';
+
+import {ApiData, Snippet} from '../../interfaces';
+import {GridDataService} from '../../services/grid-data.service';
+import {ThumbnailRendererComponent} from '../cell-renderers/thumbnail-renderer/thumbnail-renderer.component';
 
 @Component({
   selector: 'app-grid',
@@ -12,7 +14,7 @@ import {Observable} from 'rxjs';
 export class GridComponent implements OnInit {
 
   columnDefs = [
-    { field: '' },
+    { field: '', cellRendererFramework: ThumbnailRendererComponent },
     { field: 'Published On' },
     { field: 'Video Title' },
     { field: 'Description' }
@@ -32,14 +34,6 @@ export class GridComponent implements OnInit {
       .pipe(
         map((allData: ApiData): any => {
           const snippets = allData.items.map((item) => item.snippet);
-          const formattedSnippets = snippets.map(snippet => {
-            return {
-              img: snippet.thumbnails.default,
-              publishedAt: snippet.publishedAt,
-              title: snippet.title,
-              description: snippet.description
-            };
-          });
           console.log('snippets', snippets.slice(0, 10));
           return snippets.slice(0, 10);
         }),

@@ -13,6 +13,8 @@ import { TitleRendererComponent } from './components/cell-renderers/title-render
 import { TextRendererComponent } from './components/cell-renderers/text-renderer/text-renderer.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {MatMenuModule} from '@angular/material/menu';
+import {FormsModule} from '@angular/forms';
+import { HeaderCheckboxComponent } from './components/header-renderers/header-checkbox/header-checkbox.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,8 @@ import {MatMenuModule} from '@angular/material/menu';
     ThumbnailRendererComponent,
     DateRendererComponent,
     TitleRendererComponent,
-    TextRendererComponent
+    TextRendererComponent,
+    HeaderCheckboxComponent
   ],
   imports: [
     AgGridModule.withComponents([]),
@@ -29,7 +32,8 @@ import {MatMenuModule} from '@angular/material/menu';
     HttpClientModule,
     ReactiveComponentModule,
     NoopAnimationsModule,
-    MatMenuModule
+    MatMenuModule,
+    FormsModule
   ],
   providers: [GridDataService],
   bootstrap: [AppComponent]

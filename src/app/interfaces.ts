@@ -8,6 +8,7 @@ export interface ApiData {
 }
 
 export interface RowItem {
+  checkbox?: boolean;
   thumbnail: Default;
   publishedOn: Date;
   videoTitle: {title: string, videoId: string};
@@ -64,4 +65,12 @@ export interface Default {
 export interface PageInfo {
   totalResults: number;
   resultsPerPage: number;
+}
+
+export enum EColumnId {
+  CHECKBOX = 'checkbox',
+  THUMBNAIL = 'thumbnail',
+  PUBLISHED_ON = 'publishedOn',
+  VIDEO_TITLE = 'videoTitle',
+  DESCRIPTION = 'description'
 }

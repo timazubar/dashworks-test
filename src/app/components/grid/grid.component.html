@@ -5,7 +5,11 @@
     [rowData]="rowData"
     [columnDefs]="columnDefs"
     [defaultColDef]="defaultColDef"
+    [getMainMenuItems]="getMainMenuItems"
     [getContextMenuItems]="getContextMenuItems"
+    [rowSelection]="'multiple'"
+    (rowSelected)="onRowSelected($event)"
+    [suppressRowClickSelection]="true"
     (gridReady)="onGridReady($event)"
   ></ag-grid-angular>
 </div>

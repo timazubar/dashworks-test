@@ -1,0 +1,4 @@
+<div class="ag-status-name-value">
+  Selection is {{(selectionToggle$ | ngrxPush) ? 'on' : 'off'}}
+  <mat-slide-toggle color="primary" [ngModel]="selectionToggle$ | ngrxPush" (ngModelChange)="onChange($event)"></mat-slide-toggle>
+</div>

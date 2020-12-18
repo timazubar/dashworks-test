@@ -1,7 +1,6 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component} from '@angular/core';
 import {ICellRendererAngularComp} from 'ag-grid-angular';
 import {ICellRendererParams} from 'ag-grid-community';
-import {MatMenuTrigger} from '@angular/material/menu';
 
 @Component({
   selector: 'app-title-renderer',
@@ -14,9 +13,6 @@ export class TitleRendererComponent implements ICellRendererAngularComp {
   public linkUrl!: string;
   private youtubeBaseUrl = 'https://www.youtube.com/watch?v=';
 
-  @ViewChild(MatMenuTrigger)
-  contextMenu!: MatMenuTrigger;
-
   constructor() { }
 
   agInit(params: ICellRendererParams): void {
@@ -26,9 +22,5 @@ export class TitleRendererComponent implements ICellRendererAngularComp {
 
   refresh(params: ICellRendererParams): boolean {
     return false;
-  }
-
-  openInNewTab(): void {
-    window.open(this.linkUrl, '_blank');
   }
 }

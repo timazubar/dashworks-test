@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {map, tap} from 'rxjs/operators';
-import {Observable} from 'rxjs';
-import {GetContextMenuItemsParams, GetMainMenuItemsParams, MenuItemDef} from 'ag-grid-community';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {GetContextMenuItemsParams, MenuItemDef} from 'ag-grid-community';
 import 'ag-grid-enterprise';
 
 import {ApiData, EColumnId, RowItem} from '../../interfaces';
@@ -11,6 +11,7 @@ import {TitleRendererComponent} from '../cell-renderers/title-renderer/title-ren
 import {DateRendererComponent} from '../cell-renderers/date-renderer/date-renderer.component';
 import {TextRendererComponent} from '../cell-renderers/text-renderer/text-renderer.component';
 import {HeaderCheckboxComponent} from '../header-renderers/header-checkbox/header-checkbox.component';
+import {ButtonToggleComponent} from '../status-bar-components/button-toggle/button-toggle.component';
 
 @Component({
   selector: 'app-grid',
@@ -45,7 +46,7 @@ export class GridComponent implements OnInit {
     }
   ];
 
-  colDefsWithCheckbox  = [
+  colDefsWithCheckbox  =  [
     {
       field: 'checkbox',
       headerName: '',
@@ -54,11 +55,32 @@ export class GridComponent implements OnInit {
       headerComponentFramework: HeaderCheckboxComponent,
       checkboxSelection: true,
       suppressMenu: true,
-      suppressSorting: true,
-      suppressRowClickSelection: true,
-      headerValueGetter: () => this.rowDataLength
+      headerValueGetter: () => this.rowDataLength,
+      aggFunc: 'sum'
     },
-    ...this.columnDefs
+    {
+      field: 'thumbnail',
+      headerName: '',
+      cellRendererFramework: ThumbnailRendererComponent,
+      headerComponentParams: {
+        menuIcon: 'fa-bars',
+      }
+    },
+    {
+      field: 'publishedOn',
+      headerName: 'Published On',
+      cellRendererFramework: DateRendererComponent,
+    },
+    {
+      field: 'videoTitle',
+      headerName: 'Video Title',
+      cellRendererFramework: TitleRendererComponent
+    },
+    {
+      field: 'description',
+      headerName: 'Description',
+      cellRendererFramework: TextRendererComponent
+    }
   ];
 
   defaultColDef = {
@@ -67,16 +89,39 @@ export class GridComponent implements OnInit {
     autoHeight: true,
     sortable: true,
     resizable: true,
+    suppressMenu: true,
   };
 
   rowData$!: Observable<RowItem[]>;
+  selectionToggle$!: BehaviorSubject<boolean>;
 
   rowDataLength!: number;
-  public isCheckboxCol = true;
+  statusBar: any;
+  frameworkComponents = {
+    buttonToggleComponent: ButtonToggleComponent
+  };
 
-  constructor(private gridDataService: GridDataService) { }
+  constructor(private gridDataService: GridDataService) {
+    this.statusBar = {
+      statusPanels: [
+        {
+          statusPanel: 'buttonToggleComponent',
+          align: 'left'
+        },
+        {
+          statusPanel: 'agTotalRowCountComponent',
+          align: 'left',
+        },
+        {
+          statusPanel: 'agSelectedRowCountComponent',
+          align: 'left'
+        },
+      ],
+    };
+  }
 
   ngOnInit(): void {
+    // TODO: use real data
     /*this.rowData$ = this.gridDataService.getApiData<ApiData>()
       .pipe(
         map((allData: ApiData): Item[] => {
@@ -84,10 +129,7 @@ export class GridComponent implements OnInit {
           return allData.items;
         })
       );*/
-    console.log(this.colDefsWithCheckbox);
-    if (this.isCheckboxCol) {
-      this.columnDefs = this.colDefsWithCheckbox;
-    }
+
     this.rowData$ = this.gridDataService.getMockData<ApiData>().pipe(
       tap(({items}) => this.rowDataLength = items.length),
       map(({items}: ApiData): RowItem[] => {
@@ -116,21 +158,8 @@ export class GridComponent implements OnInit {
     return params.column.getColId() === EColumnId.VIDEO_TITLE ? menu : null;
   }
 
-  onGridReady(params: any): void {
-    console.log('params', params);
-  }
-
-  getMainMenuItems(params: GetMainMenuItemsParams): any {
-    switch (params.column.getColId()) {
-      case EColumnId.THUMBNAIL :
-        console.log(EColumnId.THUMBNAIL);
-        break;
-      case EColumnId.PUBLISHED_ON :
-        console.log(EColumnId.PUBLISHED_ON);
-        break;
-      default:
-        console.log('default');
-    }
+  onGridReady(event: any): void {
+    this.selectionToggle$ = event.api.getStatusPanel('buttonToggleComponent')?.getFrameworkComponentInstance().selectionToggle$;
   }
 
   isFirstColumn(params: any): any {
@@ -141,5 +170,4 @@ export class GridComponent implements OnInit {
   onRowSelected(event: any): void {
     event.api.refreshHeader();
   }
-
 }

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {map, tap} from 'rxjs/operators';
+import {tap} from 'rxjs/operators';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {GetContextMenuItemsParams, MenuItemDef} from 'ag-grid-community';
 import 'ag-grid-enterprise';
@@ -12,6 +12,7 @@ import {DateRendererComponent} from '../cell-renderers/date-renderer/date-render
 import {TextRendererComponent} from '../cell-renderers/text-renderer/text-renderer.component';
 import {HeaderCheckboxComponent} from '../header-renderers/header-checkbox/header-checkbox.component';
 import {ButtonToggleComponent} from '../status-bar-components/button-toggle/button-toggle.component';
+import {mapToRowData} from '../../utils/mapToRowData';
 
 @Component({
   selector: 'app-grid',
@@ -132,15 +133,7 @@ export class GridComponent implements OnInit {
 
     this.rowData$ = this.gridDataService.getMockData<ApiData>().pipe(
       tap(({items}) => this.rowDataLength = items.length),
-      map(({items}: ApiData): RowItem[] => {
-        return items.map((item) => ({
-            thumbnail: item.snippet.thumbnails.default,
-            publishedOn: item.snippet.publishedAt,
-            videoTitle: {title: item.snippet.title, videoId: item.id.videoId},
-            description: item.snippet.description,
-          })
-        );
-      })
+      mapToRowData()
     );
   }
 

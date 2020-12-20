@@ -1,27 +1,39 @@
-# Test
+# Hi there!
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.4.
+This is my implementation of test assignment for dashworks project.
+It is done with usage of following technologies according to requirements: 
+
+ - Angular 11
+ - 'ag-grid' library for data grid implementation
+ - Youtube Data API v3 for providing data
+
+## Architectural decisions
+All tasks are performed according to the requirements in test assignment tasks 1-4.
+The following points are done that expected in 'Code' part:
+-   GridComponent uses data from GridDataService via DI with @Self decorator, and service is provided only in this place, because it is the main component that contains ag-grid which requires the data from API.
+- mapToRowData function that is located in separate file in utils folder is a custom rxjs pipe. 
+
+And taking into account rxjs pipeable operator definition from docs: 
+> A Pipeable Operator is a function that takes an Observable as its
+> input and returns another Observable. It is a pure operation: the
+> previous Observable stays unmodified.
+ 
+, the expectation of pure function is also met.
+ 
+
+## Data Source (API/Mock)
+
+With usage of Youtube Data API, the error of exceeding requests quota may appear.
+
+If it appears, go to the GridDataService, and replace `this.http.get(this.apiUrl)` to `this.http.get(this.mockUrl)`.
+
+I have added `mockData.json` to 'assets' folder with mock copy of data from API to have ability to test application of something goes wrong with the API.
+
 
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
 ## Running unit tests
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.

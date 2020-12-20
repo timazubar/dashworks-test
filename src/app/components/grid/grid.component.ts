@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Self} from '@angular/core';
 import {tap} from 'rxjs/operators';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {GetContextMenuItemsParams, MenuItemDef} from 'ag-grid-community';
@@ -17,11 +17,21 @@ import {mapToRowData} from '../../utils/mapToRowData';
 @Component({
   selector: 'app-grid',
   templateUrl: './grid.component.html',
-  styleUrls: ['./grid.component.scss']
+  styleUrls: ['./grid.component.scss'],
+  providers: [GridDataService]
 })
 export class GridComponent implements OnInit {
 
-  columnDefs: any = [
+  defaultColDef = {
+    flex: 1,
+    wrapText: true,
+    autoHeight: true,
+    sortable: true,
+    resizable: true,
+    suppressMenu: true,
+  };
+
+  columnDefs = [
     {
       field: 'thumbnail',
       headerName: '',
@@ -84,57 +94,39 @@ export class GridComponent implements OnInit {
     }
   ];
 
-  defaultColDef = {
-    flex: 1,
-    wrapText: true,
-    autoHeight: true,
-    sortable: true,
-    resizable: true,
-    suppressMenu: true,
+  statusBar = {
+    statusPanels: [
+      {
+        statusPanel: 'buttonToggleComponent',
+        align: 'left'
+      },
+      {
+        statusPanel: 'agTotalRowCountComponent',
+        align: 'left',
+      },
+      {
+        statusPanel: 'agSelectedRowCountComponent',
+        align: 'left'
+      },
+    ],
+  };
+  frameworkComponents = {
+    buttonToggleComponent: ButtonToggleComponent
   };
 
   rowData$!: Observable<RowItem[]>;
   selectionToggle$!: BehaviorSubject<boolean>;
 
   rowDataLength!: number;
-  statusBar: any;
-  frameworkComponents = {
-    buttonToggleComponent: ButtonToggleComponent
-  };
 
-  constructor(private gridDataService: GridDataService) {
-    this.statusBar = {
-      statusPanels: [
-        {
-          statusPanel: 'buttonToggleComponent',
-          align: 'left'
-        },
-        {
-          statusPanel: 'agTotalRowCountComponent',
-          align: 'left',
-        },
-        {
-          statusPanel: 'agSelectedRowCountComponent',
-          align: 'left'
-        },
-      ],
-    };
-  }
-
-  ngOnInit(): void {
-    // TODO: use real data
-    /*this.rowData$ = this.gridDataService.getApiData<ApiData>()
-      .pipe(
-        map((allData: ApiData): Item[] => {
-          console.log('allData', allData.items);
-          return allData.items;
-        })
-      );*/
-
-    this.rowData$ = this.gridDataService.getMockData<ApiData>().pipe(
+  constructor(@Self() gridDataService: GridDataService) {
+    this.rowData$ = gridDataService.getData<ApiData>().pipe(
       tap(({items}) => this.rowDataLength = items.length),
       mapToRowData()
     );
+  }
+
+  ngOnInit(): void {
   }
 
   getContextMenuItems(params: GetContextMenuItemsParams): any {
@@ -153,11 +145,6 @@ export class GridComponent implements OnInit {
 
   onGridReady(event: any): void {
     this.selectionToggle$ = event.api.getStatusPanel('buttonToggleComponent')?.getFrameworkComponentInstance().selectionToggle$;
-  }
-
-  isFirstColumn(params: any): any {
-    const displayedColumns = params.columnApi.getAllDisplayedColumns();
-    return displayedColumns[0] === params.column;
   }
 
   onRowSelected(event: any): void {

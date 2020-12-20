@@ -1,8 +1,8 @@
-<div *ngrxLet="rowData$; let rowData">
+<div>
   <ag-grid-angular
     style="width: 100%; height: 100vh"
     class="ag-theme-alpine"
-    [rowData]="rowData"
+    [rowData]="rowData$ | ngrxPush"
     [columnDefs]="(selectionToggle$ | ngrxPush) ? colDefsWithCheckbox : columnDefs"
     [defaultColDef]="defaultColDef"
     [applyColumnDefOrder]="true"

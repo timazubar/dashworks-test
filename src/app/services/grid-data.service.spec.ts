@@ -1,7 +1,7 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 
-import { GridDataService } from './grid-data.service';
+import {GridDataService} from './grid-data.service';
 
 describe('GridDataService', () => {
   let service: GridDataService;

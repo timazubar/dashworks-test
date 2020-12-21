@@ -16,10 +16,21 @@ describe('TextRendererComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TextRendererComponent);
     component = fixture.componentInstance;
+    component.description = 'Description';
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should contain div with .cell-content-wrapper class', () => {
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('div').classList.contains('cell-content-wrapper')).toBeTrue();
+  });
+
+  it('should contain description', () => {
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('p').innerText).toBe(component.description);
   });
 });

@@ -9,9 +9,10 @@ import {ICellRendererParams} from 'ag-grid-community';
 })
 export class DateRendererComponent implements ICellRendererAngularComp {
 
-  public date!: Date;
+  public date!: string;
 
-  constructor() { }
+  constructor() {
+  }
 
   agInit(params: ICellRendererParams): void {
     this.date = params.value;

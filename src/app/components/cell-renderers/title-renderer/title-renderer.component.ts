@@ -9,14 +9,14 @@ import {ICellRendererParams} from 'ag-grid-community';
 })
 export class TitleRendererComponent implements ICellRendererAngularComp {
 
-  public title!: { title: string; videoId: string };
+  public titleParams!: { title: string; videoId: string };
   public linkUrl!: string;
   private youtubeBaseUrl = 'https://www.youtube.com/watch?v=';
 
   constructor() { }
 
   agInit(params: ICellRendererParams): void {
-    this.title = params.value.title;
+    this.titleParams = params.value;
     this.linkUrl = this.youtubeBaseUrl + params.value.videoId;
   }
 

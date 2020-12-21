@@ -10,7 +10,7 @@ export interface ApiData {
 export interface RowItem {
   checkbox?: boolean;
   thumbnail: Default;
-  publishedOn: Date;
+  publishedOn: string;
   videoTitle: {title: string, videoId: string};
   description: string;
 }
@@ -36,14 +36,14 @@ export enum ItemKind {
 }
 
 export interface Snippet {
-  publishedAt: Date;
+  publishedAt: string;
   channelId: string;
   title: string;
   description: string;
   thumbnails: Thumbnails;
   channelTitle: string;
   liveBroadcastContent: LiveBroadcastContent;
-  publishTime: Date;
+  publishTime: string;
 }
 
 export enum LiveBroadcastContent {

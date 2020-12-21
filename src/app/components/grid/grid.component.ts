@@ -1,7 +1,7 @@
 import {Component, OnInit, Self} from '@angular/core';
 import {tap} from 'rxjs/operators';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {GetContextMenuItemsParams, MenuItemDef} from 'ag-grid-community';
+import {GetContextMenuItemsParams, GridOptions, MenuItemDef} from 'ag-grid-community';
 import 'ag-grid-enterprise';
 
 import {ApiData, EColumnId, RowItem} from '../../interfaces';
@@ -22,23 +22,48 @@ import {mapToRowData} from '../../utils/mapToRowData';
 })
 export class GridComponent implements OnInit {
 
-  defaultColDef = {
-    flex: 1,
-    wrapText: true,
-    autoHeight: true,
-    sortable: true,
-    resizable: true,
-    suppressMenu: true,
+  gridOptions: GridOptions = {
+    defaultColDef: {
+      flex: 1,
+      wrapText: true,
+      autoHeight: true,
+      sortable: true,
+      resizable: true,
+      suppressMenu: true,
+    },
+    statusBar: {
+      statusPanels: [
+        {
+          statusPanel: 'buttonToggleComponent',
+          align: 'left'
+        },
+        {
+          statusPanel: 'agTotalRowCountComponent',
+          align: 'left',
+        },
+        {
+          statusPanel: 'agSelectedRowCountComponent',
+          align: 'left'
+        },
+      ],
+    },
+    frameworkComponents: {
+      buttonToggleComponent: ButtonToggleComponent
+    },
+    suppressRowClickSelection: true,
+    rowSelection: 'multiple',
+    applyColumnDefOrder: true,
+    context: {
+      gridComponent: this
+    }
   };
+
 
   columnDefs = [
     {
       field: 'thumbnail',
       headerName: '',
       cellRendererFramework: ThumbnailRendererComponent,
-      headerComponentParams: {
-        menuIcon: 'fa-bars',
-      }
     },
     {
       field: 'publishedOn',
@@ -57,7 +82,7 @@ export class GridComponent implements OnInit {
     }
   ];
 
-  colDefsWithCheckbox  =  [
+  colDefsWithCheckbox = [
     {
       field: 'checkbox',
       headerName: '',
@@ -79,40 +104,21 @@ export class GridComponent implements OnInit {
     },
     {
       field: 'publishedOn',
-      headerName: 'Published On',
+        headerName: 'Published On',
       cellRendererFramework: DateRendererComponent,
     },
     {
       field: 'videoTitle',
-      headerName: 'Video Title',
+        headerName: 'Video Title',
       cellRendererFramework: TitleRendererComponent
     },
     {
       field: 'description',
-      headerName: 'Description',
+        headerName: 'Description',
       cellRendererFramework: TextRendererComponent
     }
   ];
 
-  statusBar = {
-    statusPanels: [
-      {
-        statusPanel: 'buttonToggleComponent',
-        align: 'left'
-      },
-      {
-        statusPanel: 'agTotalRowCountComponent',
-        align: 'left',
-      },
-      {
-        statusPanel: 'agSelectedRowCountComponent',
-        align: 'left'
-      },
-    ],
-  };
-  frameworkComponents = {
-    buttonToggleComponent: ButtonToggleComponent
-  };
 
   rowData$!: Observable<RowItem[]>;
   selectionToggle$!: BehaviorSubject<boolean>;

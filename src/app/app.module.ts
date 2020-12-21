@@ -6,6 +6,7 @@ import {ReactiveComponentModule} from '@ngrx/component';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {MatMenuModule} from '@angular/material/menu';
 import {FormsModule} from '@angular/forms';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 import {AppComponent} from './app.component';
@@ -34,6 +35,7 @@ import {ButtonToggleComponent} from './components/status-bar-components/button-t
     HttpClientModule,
     ReactiveComponentModule,
     NoopAnimationsModule,
+    MatCheckboxModule,
     MatMenuModule,
     MatSlideToggleModule,
     FormsModule

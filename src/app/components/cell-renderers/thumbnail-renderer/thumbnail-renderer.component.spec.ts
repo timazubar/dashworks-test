@@ -1,6 +1,19 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {interval} from 'rxjs';
+import {take} from 'rxjs/operators';
 
-import { ThumbnailRendererComponent } from './thumbnail-renderer.component';
+import {ThumbnailRendererComponent} from './thumbnail-renderer.component';
+
+export const waitUntil = async (
+  untilTruthy: () => boolean
+): Promise<boolean> => {
+  while (!untilTruthy()) {
+    await interval(25)
+      .pipe(take(1))
+      .toPromise();
+  }
+  return Promise.resolve(true);
+};
 
 describe('ThumbnailRendererComponent', () => {
   let component: ThumbnailRendererComponent;
@@ -10,7 +23,7 @@ describe('ThumbnailRendererComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ ThumbnailRendererComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

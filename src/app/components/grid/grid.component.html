@@ -2,15 +2,10 @@
   <ag-grid-angular
     style="width: 100%; height: 100vh"
     class="ag-theme-alpine"
+    [gridOptions]="gridOptions"
     [rowData]="rowData$ | ngrxPush"
     [columnDefs]="(selectionToggle$ | ngrxPush) ? colDefsWithCheckbox : columnDefs"
-    [defaultColDef]="defaultColDef"
-    [applyColumnDefOrder]="true"
     [getContextMenuItems]="getContextMenuItems"
-    [statusBar]="statusBar"
-    [frameworkComponents]="frameworkComponents"
-    [suppressRowClickSelection]="true"
-    rowSelection="multiple"
     (rowSelected)="onRowSelected($event)"
     (gridReady)="onGridReady($event)"
   ></ag-grid-angular>

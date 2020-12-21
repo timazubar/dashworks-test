@@ -1,6 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {AgGridModule} from 'ag-grid-angular';
 
 import { GridComponent } from './grid.component';
+import {GridDataService} from '../../services/grid-data.service';
+
 
 describe('GridComponent', () => {
   let component: GridComponent;
@@ -8,7 +12,9 @@ describe('GridComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ GridComponent ]
+      imports: [AgGridModule.withComponents([]), HttpClientTestingModule],
+      declarations: [ GridComponent ],
+      providers: [ GridDataService ]
     })
     .compileComponents();
   });

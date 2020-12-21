@@ -1,0 +1,22 @@
+$link-color: #0074d9;
+
+a {
+  text-decoration: none;
+  color: #000;
+  transition: color .15s;
+
+  &:hover,
+  &:focus {
+    color: $link-color;
+    background: transparent;
+    transition: color .15s;
+  }
+
+  &::selection {
+    background-image: none;
+    background-color: $link-color;
+    color: #fff;
+    text-shadow: none;
+  }
+
+}

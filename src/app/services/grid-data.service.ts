@@ -16,7 +16,7 @@ export class GridDataService {
   private mockUrl = 'assets/mockData.json';
 
   getData<T>(): Observable<T | any> {
-    return this.http.get(this.apiUrl);
+    return this.http.get(this.mockUrl);
   /*if 'exceeded request quota' error in youtube data API appeared, use the method below*/
   // return this.http.get(this.mockUrl)
   }

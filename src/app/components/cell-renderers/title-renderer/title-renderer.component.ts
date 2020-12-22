@@ -2,6 +2,8 @@ import {Component} from '@angular/core';
 import {ICellRendererAngularComp} from 'ag-grid-angular';
 import {ICellRendererParams} from 'ag-grid-community';
 
+import {IVideoTitleParams} from '../../../interfaces';
+
 @Component({
   selector: 'app-title-renderer',
   templateUrl: './title-renderer.component.html',
@@ -9,7 +11,7 @@ import {ICellRendererParams} from 'ag-grid-community';
 })
 export class TitleRendererComponent implements ICellRendererAngularComp {
 
-  public titleParams!: { title: string; videoId: string };
+  public titleParams!: IVideoTitleParams;
   public linkUrl!: string;
   private youtubeBaseUrl = 'https://www.youtube.com/watch?v=';
 

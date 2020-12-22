@@ -3,66 +3,59 @@ export interface ApiData {
   etag: string;
   nextPageToken: string;
   regionCode: string;
-  pageInfo: PageInfo;
+  pageInfo: IPageInfo;
   items: Item[];
 }
 
 export interface RowItem {
   checkbox?: boolean;
-  thumbnail: Default;
+  thumbnail: IThumbnailParams;
   publishedOn: string;
-  videoTitle: {title: string, videoId: string};
+  videoTitle: IVideoTitleParams;
   description: string;
 }
 
-export interface Item {
-  kind: ItemKind;
-  etag: string;
-  id: ID;
-  snippet: Snippet;
-}
-
-export interface ID {
-  kind: IDKind;
+export interface IVideoTitleParams {
+  title: string;
   videoId: string;
 }
 
-export enum IDKind {
-  YoutubeVideo = 'youtube#video',
+export interface Item {
+  kind?: 'youtube#searchResult';
+  etag: string;
+  id: IVideoId;
+  snippet: ISnippet;
 }
 
-export enum ItemKind {
-  YoutubeSearchResult = 'youtube#searchResult',
+export interface IVideoId {
+  kind?: 'youtube#video';
+  videoId: string;
 }
 
-export interface Snippet {
+export interface ISnippet {
   publishedAt: string;
   channelId: string;
   title: string;
   description: string;
-  thumbnails: Thumbnails;
+  thumbnails: IThumbnail;
   channelTitle: string;
-  liveBroadcastContent: LiveBroadcastContent;
+  liveBroadcastContent?: 'none';
   publishTime: string;
 }
 
-export enum LiveBroadcastContent {
-  None = 'none',
+export interface IThumbnail {
+  default: IThumbnailParams;
+  medium: IThumbnailParams;
+  high: IThumbnailParams;
 }
 
-export interface Thumbnails {
-  default: Default;
-  medium: Default;
-  high: Default;
-}
-
-export interface Default {
+export interface IThumbnailParams {
   url: string;
   width: number;
   height: number;
 }
 
-export interface PageInfo {
+export interface IPageInfo {
   totalResults: number;
   resultsPerPage: number;
 }

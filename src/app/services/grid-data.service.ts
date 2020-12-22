@@ -13,6 +13,8 @@ export class GridDataService {
   private apiKey = 'AIzaSyBqmUuhoSGR1QQb7ZLn9J8mcKRrCZPNFwU';
 
   private apiUrl = `${this.apiBaseUrl}/search?key=${this.apiKey}&maxResults=10&type=video&part=snippet&q=john`;
+
+  /* mockUrl is the url to mock data for development */
   private mockUrl = 'assets/mockData.json';
 
   getData<T>(): Observable<T | any> {

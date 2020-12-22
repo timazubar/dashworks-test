@@ -1,24 +1,23 @@
-import {Component, OnInit, Self} from '@angular/core';
-import {tap} from 'rxjs/operators';
+import {Component, OnInit} from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {GetContextMenuItemsParams, GridOptions, MenuItemDef} from 'ag-grid-community';
 import 'ag-grid-enterprise';
+import {Store} from '@ngrx/store';
 
-import {ApiData, EColumnId, RowItem} from '../../interfaces';
-import {GridDataService} from '../../services/grid-data.service';
 import {ThumbnailRendererComponent} from '../cell-renderers/thumbnail-renderer/thumbnail-renderer.component';
 import {TitleRendererComponent} from '../cell-renderers/title-renderer/title-renderer.component';
 import {DateRendererComponent} from '../cell-renderers/date-renderer/date-renderer.component';
 import {TextRendererComponent} from '../cell-renderers/text-renderer/text-renderer.component';
 import {HeaderCheckboxComponent} from '../header-renderers/header-checkbox/header-checkbox.component';
 import {ButtonToggleComponent} from '../status-bar-components/button-toggle/button-toggle.component';
-import {mapToRowData} from '../../utils/mapToRowData';
+import {selectGridData, State} from '../../store/grid.state';
+import {EColumnId, RowItem} from '../../interfaces';
 
 @Component({
   selector: 'app-grid',
   templateUrl: './grid.component.html',
   styleUrls: ['./grid.component.scss'],
-  providers: [GridDataService]
+  providers: []
 })
 export class GridComponent implements OnInit {
 
@@ -120,16 +119,13 @@ export class GridComponent implements OnInit {
   ];
 
 
-  rowData$!: Observable<RowItem[]>;
+  rowData$!: Observable<RowItem[] | null>;
   selectionToggle$!: BehaviorSubject<boolean>;
 
   rowDataLength!: number;
 
-  constructor(@Self() gridDataService: GridDataService) {
-    this.rowData$ = gridDataService.getData<ApiData>().pipe(
-      tap(({items}) => this.rowDataLength = items.length),
-      mapToRowData()
-    );
+  constructor(private store: Store<State>) {
+    this.rowData$ = store.select(selectGridData);
   }
 
   ngOnInit(): void {
@@ -151,6 +147,7 @@ export class GridComponent implements OnInit {
 
   onGridReady(event: any): void {
     this.selectionToggle$ = event.api.getStatusPanel('buttonToggleComponent')?.getFrameworkComponentInstance().selectionToggle$;
+    this.rowDataLength = event.api.rowModel.rowsToDisplay.length;
   }
 
   onRowSelected(event: any): void {

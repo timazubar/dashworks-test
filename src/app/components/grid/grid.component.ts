@@ -12,6 +12,7 @@ import {HeaderCheckboxComponent} from '../header-renderers/header-checkbox/heade
 import {ButtonToggleComponent} from '../status-bar-components/button-toggle/button-toggle.component';
 import {selectGridData, State} from '../../store/grid.state';
 import {EColumnId, RowItem} from '../../interfaces';
+import {filter, tap} from 'rxjs/internal/operators';
 
 @Component({
   selector: 'app-grid',
@@ -122,10 +123,13 @@ export class GridComponent implements OnInit {
   rowData$!: Observable<RowItem[] | null>;
   selectionToggle$!: BehaviorSubject<boolean>;
 
-  rowDataLength!: number;
+  rowDataLength?: number;
 
   constructor(private store: Store<State>) {
-    this.rowData$ = store.select(selectGridData);
+    this.rowData$ = store.select(selectGridData).pipe(
+      filter(value => value !== null),
+      tap(items => this.rowDataLength = items?.length)
+    );
   }
 
   ngOnInit(): void {
@@ -147,7 +151,6 @@ export class GridComponent implements OnInit {
 
   onGridReady(event: any): void {
     this.selectionToggle$ = event.api.getStatusPanel('buttonToggleComponent')?.getFrameworkComponentInstance().selectionToggle$;
-    this.rowDataLength = event.api.rowModel.rowsToDisplay.length;
   }
 
   onRowSelected(event: any): void {
